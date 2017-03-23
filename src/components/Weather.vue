@@ -1,83 +1,84 @@
 <template>
-  <div class="weather">
-      <div class="location">{{location}}</div>
-      <div class="date">{{date}}</div>
-      <div class="description">{{description}}</div>
-      <div class="current">
-          <div class="visual">
-              <div class="icon cloudy" alt="cloudy"></div>
-              <div class="temp">{{temp}}</div>
-              <div class="scale">º</div>
-          </div>
-      </div>
-      <div class="text">
-          <div class="precipitation">Precipitation: {{precipitation}}</div>
-          <div class="humidity">Humidity: {{humidity}}</div>
-          <div class="wind">Wind: {{wind}}</div>
-          <div class="pollen">Pollen: {{pollen}}</div>
-      </div>
-      <div class="forecast">
-          <div class="forecast-day" v-for="forecast in forecasts">
-              <div class="date">{{ forecast.date }}</div>
-              <div v-bind:class="'icon ' + forecast.icon"></div>
-              <div class="low-temps">{{ forecast.lowtemps }}</div>
-              <div class="high-temps">{{ forecast.hightemps }}</div>
-          </div>
-      </div>
-  </div>
+    <div class="weather">
+        <div class="location">{{location}}</div>
+        <div class="date">{{date}}</div>
+        <div class="description">{{description}}</div>
+        <div class="current">
+            <div class="visual">
+                <div class="icon cloudy" alt="cloudy"></div>
+                <div class="temp">{{temp}}</div>
+                <div class="scale">º</div>
+            </div>
+            <div class="text">
+                <div class="precipitation">Precipitation: {{precipitation}}</div>
+                <div class="humidity">Humidity: {{humidity}}</div>
+                <div class="wind">Wind: {{wind}}</div>
+                <div class="pollen">Pollen: {{pollen}}</div>
+            </div>
+        </div>
+        <div class="forecast">
+            <div class="forecast-day" v-for="forecast in forecasts">
+                <div class="date">{{forecast.date}}</div>
+                <div class="icon" :class="forecast.icon"></div>
+                <div class="high-temp">{{forecast.highTemp}}</div>
+                <div class="scale">º</div>
+                <div class="low-temp">{{forecast.lowTemp}}</div>
+                <div class="scale">º</div>
+                <div class="forecast-pollen">Pollen {{forecast.pollen}}</div>
+            </div>
+        </div>
+    </div>
 </template>
-<style>
-</style>
+
 <script>
-export default{
+export default {
   name: 'weather',
   data () {
     return {
+      connecting: true,
       location: 'New York, NY',
-      date: 'Tusday, April 15th',
+      date: 'Tuesday, April 15th',
       description: 'desc here',
       temp: 25,
       precipitation: '100%',
       humidity: '97%',
-      wind: '4 mph SW',
+      wind: '4mph SW',
       pollen: 36,
-      forecasts: [
-
-      ],
-      prova: []
-    }
-  },
-  methods: {
-    fetchWeather: function () {
-      this.$http.get('http://localhost:3000/weather').then((response) => {
-        console.log(response)
-        this.forecasts = response.data
-      }, (response) => {
-
-      })
+      forecasts: []
     }
   },
   created: function () {
     this.fetchWeather()
+  },
+  methods: {
+    fetchWeather: function () {
+      this.$http.get('https://oscarduranx.github.io/responsive/weatherFakeAPI/weahterFaker.json').then((response) => {
+        this.connecting = false
+        this.forecasts = response.data
+      }, (response) => {
+        this.connecting = false
+        this.showConnectionError()
+      })
+    },
+    showConnectionError: function () {
+    }
   }
 }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .weather {
-    width: 100%;
     padding: 20px;
-    box-shadow: 0 100px 100px rgba(0,0,0,0.2);
   }
   @media (min-width: 700px) {
     .weather {
       width: 700px;
     }
   }
-
-
   .location {
     font-size: 3em;
+    color: black;
   }
   .date {
     font-size: 1.5em;
@@ -87,72 +88,82 @@ export default{
   }
   .current {
     overflow: auto;
-    width: 100%,
+    width: 100%;
   }
   .visual {
-    float:left;
-    width: 50%,
+   float: left;
+   width: 50%;
   }
-  .visual .icon {
-    width: 64px;
-    height: 64px;
-    text-align: center;
-  }
-
   .text {
-    float:right;
-    width: 50%,
+    float: right;
+    width: 50%;
   }
   .forecast-day {
-    display:inline-block;
-    width: 14.2857%;
-    text-align: center;
+    display: inline-block;
+    width: 14.285%;
   }
-
-  .forecast-day .icon{
-    width: 64px;
-    height: 64px;
-
+  @media (max-width: 650px) {
+    .forecast-day {
+      display: block;
+      border-top: 1px solid black;
+      width: 100%;
+    }
   }
-
-  .icon{
+  .icon {
     background-repeat: no-repeat;
     background-size: contain;
-    display: inline-block;
-
+    background-position: center;
+    height: 64px;
+    width: 64px;
+    margin: 0 auto;
   }
   .icon.cloudy {
-    background-image: url("../assets/img/cloudy.png");
+    background-image: url('../assets/img/cloudy.png');
+    position: left;
   }
-  .icon.partlycloudy {
+  .icon.partly {
     background-image: url('../assets/img/partly_cloudy.png');
+  }
+  .icon.rain {
+    background-image: url('../assets/img/rain_s_cloudy.png');
   }
   .icon.sunny {
     background-image: url('../assets/img/sunny.png');
   }
-  .icon.rain {
-    background-image: url('../assets/img/rain.png');
-  }
-  .icon.rainscloudy {
-    background-image: url('../assets/img/rain_s_cloudy.png');
-  }
   .icon.thunderstorms {
     background-image: url('../assets/img/thunderstorms.png');
   }
-
-  @media (min-width: 650px) {
-    .location {
-      font-size: 5em;
-      color:green;
-    }
-    .date, .icon, .high-temp, .low-temp {
-      display:inline-block;
-    }
-    .forecast-day .date{
+  .visual .icon.cloudy {
+    float: left;
+    margin-left: 0;
+  }
+  .forecast-day div {
+    vertical-align: middle;
+    text-align: center;
+  }
+  .temp {
+  }
+  .high-temp, .low-temp {
+    width: 50%;
+    text-align: right;
+  }
+  .forecast-day .scale {
     width: 50%;
     text-align: left;
-
+  }
+  .forecast-day .date {
+    font-size: 1em;
+  }
+  @media (max-width: 650px) {
+    .date, .forecast-day .icon, .high-temp, .forecast-day .scale, .low-temp, .forecast-pollen {
+      display: inline-block;
+    }
+    .date {
+      color: black;
+      font-weight: bold;
+    }
+    .high-temp, .forecast-day .scale, .low-temp {
+      width: 20px;
     }
   }
-
 </style>
