@@ -1,0 +1,51 @@
+[
+  {
+    "date": "Monday",
+    "icon": "cloudy",
+    "highTemp": 30,
+    "lowTemp": 15,
+    "pollen": 36
+  },
+  {
+    "date": "Tuesday",
+    "icon": "sunny",
+    "highTemp": 30,
+    "lowTemp": 15,
+    "pollen": 36
+  },
+  {
+    "date": "Wednesday",
+    "icon": "partly",
+    "highTemp": 30,
+    "lowTemp": 15,
+    "pollen": 36
+  },
+  {
+    "date": "Thursday",
+    "icon": "rain",
+    "highTemp": 30,
+    "lowTemp": 15,
+    "pollen": 36
+  },
+  {
+    "date": "Friday",
+    "icon": "thunderstorms",
+    "highTemp": 30,
+    "lowTemp": 15,
+    "pollen": 36
+  },
+  {
+    "date": "Saturday",
+    "icon": "rain",
+    "highTemp": 30,
+    "lowTemp": 15,
+    "pollen": 36
+  },
+  {
+    "date": "Sunday",
+    "icon": "thunderstorms",
+    "highTemp": 30,
+    "lowTemp": 15,
+    "pollen": 36
+  }
+]
